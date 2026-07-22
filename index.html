@@ -540,12 +540,29 @@ a.contact-item:hover{transform:translateY(-4px);border-color:var(--gold)}
   min-height:380px;background:var(--sage-soft);
   box-shadow:var(--shadow-soft);display:flex;
 }
-.map-consent{
-  margin:auto;text-align:center;padding:2rem;max-width:380px;
+.map-preview{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.map-pin-ring{
+  transform-origin:300px 196px;
+  animation:pinPulse 2.6s ease-out infinite;
 }
-.map-consent svg{width:52px;height:52px;color:var(--forest);margin:0 auto 1rem}
+.map-pin-ring.r2{animation-delay:1.3s}
+@keyframes pinPulse{
+  0%{transform:scale(.5);opacity:.9}
+  100%{transform:scale(2.6);opacity:0}
+}
+.map-consent{
+  position:relative;z-index:2;
+  margin:auto;text-align:center;
+  background:rgba(251,248,241,.9);
+  -webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px);
+  border:1px solid rgba(194,161,94,.5);
+  border-radius:var(--radius);
+  box-shadow:0 18px 44px rgba(31,58,44,.22);
+  padding:1.7rem 1.6rem;max-width:330px;width:calc(100% - 3rem);
+}
+.map-consent svg{width:40px;height:40px;color:var(--forest);margin:0 auto .8rem}
 .map-consent p{font-size:.84rem;color:var(--ink-soft);margin-bottom:1.2rem}
-.map-shell iframe{border:0;width:100%;min-height:380px}
+.map-shell iframe{border:0;width:100%;min-height:380px;position:relative;z-index:3}
 
 /* ============================================================
    FOOTER
@@ -1235,6 +1252,51 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
 
       <!-- Datenschutzkonforme Zwei-Klick-Karte -->
       <div class="map-shell reveal d1" id="mapShell">
+        <!-- Stilisierte Karten-Vorschau (rein dekorativ, lokal – keine Datenübertragung) -->
+        <svg class="map-preview" viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="600" height="420" fill="#E4EAE0"/>
+          <!-- Häuserblöcke -->
+          <g fill="#D3DCCD">
+            <rect x="30" y="30" width="150" height="100" rx="10"/>
+            <rect x="210" y="20" width="120" height="80" rx="10"/>
+            <rect x="360" y="40" width="200" height="90" rx="10"/>
+            <rect x="20" y="170" width="110" height="120" rx="10"/>
+            <rect x="440" y="170" width="140" height="100" rx="10"/>
+            <rect x="40" y="320" width="160" height="80" rx="10"/>
+            <rect x="240" y="330" width="130" height="70" rx="10"/>
+            <rect x="410" y="310" width="170" height="90" rx="10"/>
+          </g>
+          <!-- Park -->
+          <rect x="160" y="150" width="150" height="130" rx="16" fill="#C2D1B8"/>
+          <g fill="#A9B8A2" opacity=".8">
+            <circle cx="195" cy="185" r="12"/><circle cx="230" cy="215" r="15"/>
+            <circle cx="275" cy="180" r="10"/><circle cx="265" cy="245" r="12"/>
+          </g>
+          <!-- Straßen -->
+          <g stroke="#FBF8F1" fill="none" stroke-linecap="round">
+            <path d="M0 145 H600" stroke-width="16"/>
+            <path d="M0 300 H600" stroke-width="14"/>
+            <path d="M195 0 V420" stroke-width="14"/>
+            <path d="M345 0 V420" stroke-width="12"/>
+            <path d="M420 0 L560 420" stroke-width="9"/>
+            <path d="M0 60 H600" stroke-width="7"/>
+            <path d="M70 0 V420" stroke-width="7"/>
+          </g>
+          <!-- Goldene Route zum Standort -->
+          <path d="M40 400 C140 380 150 320 220 300 S280 240 300 210"
+                fill="none" stroke="#C2A15E" stroke-width="4.5"
+                stroke-linecap="round" stroke-dasharray="2 12"/>
+          <!-- Standort-Pin mit Puls -->
+          <g class="map-pin">
+            <circle class="map-pin-ring" cx="300" cy="196" r="16" fill="none" stroke="#C2A15E" stroke-width="2"/>
+            <circle class="map-pin-ring r2" cx="300" cy="196" r="16" fill="none" stroke="#C2A15E" stroke-width="2"/>
+            <path d="M300 214c0 0-26-19.5-26-38a26 26 0 1 1 52 0c0 18.5-26 38-26 38Z"
+                  fill="#1F3A2C" stroke="#FBF8F1" stroke-width="3"/>
+            <circle cx="300" cy="176" r="9" fill="#C2A15E"/>
+          </g>
+          <text x="318" y="252" font-family="Georgia,serif" font-size="17" font-style="italic" fill="#1F3A2C" opacity=".75">Hasenbergl-Feldmoching</text>
+        </svg>
+
         <div class="map-consent" id="mapConsent">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
           <p><strong>Karte anzeigen?</strong><br>Beim Laden der Karte werden Daten an Google übertragen (siehe Datenschutzerklärung).</p>
