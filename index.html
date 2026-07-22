@@ -604,12 +604,186 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
   padding:1rem 1.2rem;font-size:.82rem;color:#6E5320;margin-bottom:1.4rem;
 }
 
+/* ============================================================
+   PREMIUM 3D LAYER – Tilt, Partikel, Tiefe, Glanz
+   ============================================================ */
+
+/* Scroll-Fortschritt (feine Goldlinie oben) */
+.scroll-progress{
+  position:fixed;top:0;left:0;height:3px;width:0;z-index:80;
+  background:linear-gradient(90deg,var(--gold-2),var(--gold),var(--gold-soft));
+  box-shadow:0 0 12px rgba(194,161,94,.7);
+}
+
+/* 3D-Scroll-Reveal: Sektionen kippen sanft aus der Tiefe herein */
+.reveal{
+  opacity:0;
+  transform:perspective(1000px) translateY(42px) rotateX(7deg);
+  transform-origin:center 85%;
+  transition:opacity .9s ease,transform .9s cubic-bezier(.2,.75,.25,1);
+}
+.reveal.in{opacity:1;transform:perspective(1000px) translateY(0) rotateX(0)}
+
+/* 3D-Tilt-Karten (per JS aktiviert) */
+.tilt{position:relative;transform-style:preserve-3d;will-change:transform}
+.tilt.tilting{transition:transform .09s ease,box-shadow .3s ease}
+.tilt .tilt-glare{
+  position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;
+  background:radial-gradient(300px circle at var(--gx,50%) var(--gy,50%),rgba(255,253,245,.45),transparent 62%);
+  opacity:0;transition:opacity .35s ease;mix-blend-mode:soft-light;
+}
+.tilt:hover .tilt-glare{opacity:1}
+.pkg .tilt-glare{background:radial-gradient(260px circle at var(--gx,50%) var(--gy,50%),rgba(228,211,174,.4),transparent 62%);mix-blend-mode:screen}
+/* Karteninhalt leicht anheben – echte Tiefe im Tilt */
+.tilt .service-icon,.tilt .benefit-icon{transform:translateZ(34px)}
+.tilt h3{transform:translateZ(24px)}
+.service-card,.benefit,.pkg,.gallery-grid figure,.contact-item{transform-style:preserve-3d}
+
+/* Hero: Ebenen & Partikel */
+.hero-inner{position:relative;z-index:2}
+.hero-scroll{z-index:2}
+.hero-particles{position:absolute;inset:0;z-index:1;pointer-events:none}
+.hero-leaf{will-change:transform;transition:transform .25s ease-out}
+
+/* Hero-Entrance: gestaffeltes Auftauchen mit Tiefenschärfe */
+@keyframes heroRise{
+  from{opacity:0;transform:translateY(38px) scale(.985);filter:blur(7px)}
+  to{opacity:1;transform:none;filter:none}
+}
+.hero-inner > *{animation:heroRise 1.05s cubic-bezier(.18,.75,.22,1) both}
+.hero-inner > :nth-child(1){animation-delay:.15s}
+.hero-inner > :nth-child(2){animation-delay:.3s}
+.hero-inner > :nth-child(3){animation-delay:.45s}
+.hero-inner > :nth-child(4){animation-delay:.6s}
+.hero-inner > :nth-child(5){animation-delay:.78s}
+
+/* Sanftes Schweben (Badge & Rabatt) */
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.hero-badge{animation:heroRise 1.05s cubic-bezier(.18,.75,.22,1) both .15s,floaty 5.5s ease-in-out 1.4s infinite}
+.promo-amount{animation:floaty 5s ease-in-out infinite}
+.about-photo figcaption{animation:floaty 6s ease-in-out infinite}
+
+/* Gold-Shimmer über Premium-Buttons */
+.btn{position:relative;overflow:hidden}
+.btn-gold::before,.btn-whatsapp::before{
+  content:"";position:absolute;top:-10%;left:-70%;width:45%;height:120%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);
+  transform:skewX(-22deg);animation:shineSweep 4.8s ease-in-out infinite;
+}
+@keyframes shineSweep{
+  0%,55%{left:-70%}
+  75%,100%{left:135%}
+}
+
+/* Aktions-Banner: rotierender Gold-Lichtrand */
+@property --pa{syntax:"<angle>";initial-value:0deg;inherits:false}
+.promo-banner{
+  border:1.5px solid transparent;
+  background:
+    linear-gradient(135deg,var(--forest),var(--forest-2)) padding-box,
+    conic-gradient(from var(--pa),
+      rgba(228,211,174,.95),rgba(194,161,94,.08) 25%,
+      rgba(194,161,94,.7) 50%,rgba(194,161,94,.08) 75%,
+      rgba(228,211,174,.95)) border-box;
+  animation:spinBorder 7s linear infinite;
+}
+@keyframes spinBorder{to{--pa:360deg}}
+
+/* Maderotherapie-Bild: langsamer Ken-Burns-Effekt */
+.madero-img{transform:perspective(900px)}
+.madero-img img{animation:kenburns 20s ease-in-out infinite alternate}
+@keyframes kenburns{from{transform:scale(1) translate(0,0)}to{transform:scale(1.09) translate(-1.5%,1.5%)}}
+
+/* Buchungskarte: mehrschichtiger Tiefen-Schatten */
+.booking-card{
+  box-shadow:
+    0 2px 6px rgba(31,58,44,.06),
+    0 14px 34px rgba(31,58,44,.12),
+    0 40px 90px rgba(31,58,44,.16);
+}
+
+/* Service-Icons: sanfte 3D-Drehung beim Hover */
+.service-card:hover .service-icon,.benefit:hover .benefit-icon{
+  transform:translateZ(34px) rotateY(14deg) scale(1.06);
+  transition:transform .45s cubic-bezier(.2,.8,.3,1.2);
+}
+.service-icon,.benefit-icon{transition:transform .45s ease}
+
+/* Galerie: Tiefe beim Hover */
+.gallery-grid figure{transition:transform .35s ease,box-shadow .35s ease}
+.gallery-grid figure:hover{box-shadow:var(--shadow-lift)}
+
+/* ============================================================
+   PREMIUM MOBILE – Hero als edle Glaskarte + Feinschliff
+   ============================================================ */
+@media (max-width:720px){
+  .hero{
+    padding:calc(var(--header-h) + 22px) 0 78px;
+    text-align:center;
+  }
+  .hero-bg{background-position:68% center}
+  /* zusätzliche Vignette für Tiefe auf kleinen Screens */
+  .hero::before{
+    background:
+      radial-gradient(120% 90% at 50% 8%,rgba(22,41,31,.35),transparent 55%),
+      linear-gradient(180deg,rgba(22,41,31,.9) 0%,rgba(31,58,44,.72) 45%,rgba(22,41,31,.88) 100%);
+  }
+
+  /* Glaskarte mit Goldrahmen */
+  .hero-inner{
+    background:linear-gradient(165deg,rgba(22,41,31,.62),rgba(31,58,44,.38));
+    -webkit-backdrop-filter:blur(12px);
+    backdrop-filter:blur(12px);
+    border:1px solid rgba(194,161,94,.5);
+    border-radius:24px;
+    padding:2.3rem 1.35rem 2.4rem;
+    box-shadow:
+      0 24px 60px rgba(0,0,0,.4),
+      inset 0 1px 0 rgba(255,255,255,.1);
+  }
+  /* filigrane Gold-Ornamente in den Ecken */
+  .hero-inner::before,
+  .hero-inner::after{
+    content:"";position:absolute;width:26px;height:26px;
+    border:1.5px solid var(--gold);pointer-events:none;
+  }
+  .hero-inner::before{top:12px;left:12px;border-right:0;border-bottom:0;border-top-left-radius:12px}
+  .hero-inner::after{bottom:12px;right:12px;border-left:0;border-top:0;border-bottom-right-radius:12px}
+
+  .hero h1{font-size:clamp(2.35rem,10vw,3rem);margin-top:1.1rem}
+  .hero .script{font-size:clamp(1.55rem,7.5vw,2rem)}
+  .hero p.lead{margin-inline:auto;font-size:.95rem;margin-bottom:1.7rem}
+  .hero-badge{font-size:.66rem;padding:.45rem 1rem}
+  .hero-ctas{flex-direction:column;gap:.75rem}
+  .hero-ctas .btn{width:100%;padding:1.05rem 1.4rem}
+  .hero-scroll{bottom:14px;font-size:.6rem}
+  .hero-scroll::after{height:28px}
+  .hero-leaf.tl{width:140px;top:76px;left:-34px;opacity:.2}
+  .hero-leaf.br{width:210px;bottom:-30px;right:-46px;opacity:.2}
+
+  /* Allgemeiner Mobile-Feinschliff */
+  .section{padding:74px 0}
+  .promo-banner{
+    flex-direction:column;text-align:center;
+    padding:2.5rem 1.5rem;gap:1.4rem;
+  }
+  .promo-banner .btn{width:100%}
+  .booking-head{padding:1.3rem 1.4rem;flex-direction:column;text-align:center}
+  .aroma-note{padding:.95rem 1.3rem;font-size:.88rem}
+  .about-photo::before{inset:-12px auto auto -12px}
+  .madero-tags{justify-content:center}
+  .madero .center + .madero-grid{margin-top:2rem}
+}
+
 /* ---------- Reduced Motion ---------- */
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition:none!important}
   .reveal{opacity:1;transform:none}
   .hero-bg{transform:none!important}
+  .hero-inner > *,.hero-badge{animation:none!important;opacity:1;filter:none}
+  .btn-gold::before,.btn-whatsapp::before{display:none}
+  .tilt .tilt-glare{display:none}
 }
 </style>
 </head>
@@ -1223,9 +1397,9 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
     revealEls.forEach(function(el){ io.observe(el); });
   }
 
-  /* ---------- Dezenter Hero-Parallax ---------- */
+  /* ---------- Dezenter Hero-Parallax (nur Desktop) ---------- */
   var heroBg = document.getElementById("heroBg");
-  if(heroBg && !prefersReduced){
+  if(heroBg && !prefersReduced && window.matchMedia("(pointer: fine)").matches){
     var ticking = false;
     window.addEventListener("scroll", function(){
       if(ticking) return;
@@ -1373,6 +1547,159 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
 
   /* ---------- Jahr im Footer ---------- */
   document.getElementById("year").textContent = new Date().getFullYear();
+
+  /* ============================================================
+     PREMIUM 3D LAYER
+  ============================================================ */
+  var finePointer = window.matchMedia("(pointer: fine)").matches;
+
+  /* ---------- Scroll-Fortschrittslinie ---------- */
+  var progress = document.createElement("div");
+  progress.className = "scroll-progress";
+  progress.setAttribute("aria-hidden","true");
+  document.body.appendChild(progress);
+  window.addEventListener("scroll", function(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    progress.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + "%";
+  }, {passive:true});
+
+  /* ---------- 3D-Tilt mit Licht-Glare ---------- */
+  if(!prefersReduced && finePointer){
+    var tiltEls = document.querySelectorAll(
+      ".service-card, .benefit, .pkg, .gallery-grid figure, .contact-item"
+    );
+    tiltEls.forEach(function(el){
+      el.classList.add("tilt");
+      var glare = document.createElement("span");
+      glare.className = "tilt-glare";
+      el.appendChild(glare);
+
+      var rect = null;
+      var maxTilt = el.classList.contains("pkg") ? 5 : 8;
+
+      el.addEventListener("pointerenter", function(){
+        rect = el.getBoundingClientRect();
+        el.classList.add("tilting");
+      });
+      el.addEventListener("pointermove", function(e){
+        if(!rect) rect = el.getBoundingClientRect();
+        var x = (e.clientX - rect.left) / rect.width;
+        var y = (e.clientY - rect.top) / rect.height;
+        el.style.transform =
+          "perspective(850px)" +
+          " rotateX(" + ((0.5 - y) * maxTilt).toFixed(2) + "deg)" +
+          " rotateY(" + ((x - 0.5) * maxTilt).toFixed(2) + "deg)" +
+          " translateY(-6px) scale(1.015)";
+        el.style.setProperty("--gx", (x * 100).toFixed(1) + "%");
+        el.style.setProperty("--gy", (y * 100).toFixed(1) + "%");
+      });
+      el.addEventListener("pointerleave", function(){
+        el.classList.remove("tilting");
+        el.style.transform = "";
+        rect = null;
+      });
+    });
+  }
+
+  /* ---------- Goldene Licht-Partikel im Hero ---------- */
+  var hero = document.querySelector(".hero");
+  if(hero && !prefersReduced){
+    var canvas = document.createElement("canvas");
+    canvas.className = "hero-particles";
+    canvas.setAttribute("aria-hidden","true");
+    hero.appendChild(canvas);
+    var ctx = canvas.getContext("2d");
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var particles = [];
+    var running = true;
+    var W = 0, H = 0;
+
+    function resize(){
+      W = hero.clientWidth; H = hero.clientHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      canvas.style.width = W + "px"; canvas.style.height = H + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    var COUNT = window.innerWidth < 720 ? 26 : 48;
+    for(var i = 0; i < COUNT; i++){
+      particles.push({
+        x: Math.random(),
+        y: Math.random(),
+        r: 0.8 + Math.random() * 2.6,       /* Radius */
+        s: 0.06 + Math.random() * 0.16,     /* Steiggeschwindigkeit */
+        a: Math.random() * Math.PI * 2,     /* Phase fürs Pendeln */
+        w: 8 + Math.random() * 26,          /* Pendel-Amplitude */
+        o: 0.15 + Math.random() * 0.5,      /* Grund-Opazität */
+        gold: Math.random() > 0.35          /* gold oder salbei-weiß */
+      });
+    }
+
+    var t0 = performance.now();
+    function frame(now){
+      if(!running){ requestAnimationFrame(frame); return; }
+      var t = (now - t0) / 1000;
+      ctx.clearRect(0, 0, W, H);
+      for(var i = 0; i < particles.length; i++){
+        var p = particles[i];
+        var y = (p.y - t * p.s / 10) % 1; if(y < 0) y += 1;
+        var px = p.x * W + Math.sin(t * 0.5 + p.a) * p.w;
+        var py = y * H;
+        var tw = 0.6 + 0.4 * Math.sin(t * 1.6 + p.a * 3); /* Funkeln */
+        var alpha = p.o * tw;
+        var grad = ctx.createRadialGradient(px, py, 0, px, py, p.r * 3.2);
+        if(p.gold){
+          grad.addColorStop(0, "rgba(228,211,174," + alpha + ")");
+          grad.addColorStop(0.5, "rgba(194,161,94," + (alpha * 0.55) + ")");
+        } else {
+          grad.addColorStop(0, "rgba(250,248,240," + (alpha * 0.85) + ")");
+          grad.addColorStop(0.5, "rgba(169,184,162," + (alpha * 0.4) + ")");
+        }
+        grad.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(px, py, p.r * 3.2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+
+    /* Pausieren, wenn der Hero nicht sichtbar ist (Performance) */
+    if("IntersectionObserver" in window){
+      new IntersectionObserver(function(entries){
+        running = entries[0].isIntersecting;
+      }, {threshold: 0}).observe(hero);
+    }
+  }
+
+  /* ---------- Hero: Tiefen-Parallax auf Mausbewegung ---------- */
+  if(hero && !prefersReduced && finePointer){
+    var leafTL = hero.querySelector(".hero-leaf.tl");
+    var leafBR = hero.querySelector(".hero-leaf.br");
+    var aurora = hero.querySelector(".hero-aurora");
+    var heroInner = hero.querySelector(".hero-inner");
+    hero.addEventListener("pointermove", function(e){
+      var cx = (e.clientX / window.innerWidth - 0.5);
+      var cy = (e.clientY / window.innerHeight - 0.5);
+      if(leafTL) leafTL.style.transform =
+        "translate(" + (cx * -26) + "px," + (cy * -18) + "px) rotate(-15deg)";
+      if(leafBR) leafBR.style.transform =
+        "translate(" + (cx * 34) + "px," + (cy * 24) + "px) rotate(160deg)";
+      if(aurora) aurora.style.translate = (cx * 18) + "px " + (cy * 12) + "px";
+      if(heroInner) heroInner.style.transform =
+        "perspective(900px) rotateX(" + (cy * -1.6) + "deg) rotateY(" + (cx * 1.6) + "deg)";
+    });
+    hero.addEventListener("pointerleave", function(){
+      if(leafTL) leafTL.style.transform = "";
+      if(leafBR) leafBR.style.transform = "";
+      if(aurora) aurora.style.translate = "";
+      if(heroInner) heroInner.style.transform = "";
+    });
+  }
 })();
 </script>
 </body>
