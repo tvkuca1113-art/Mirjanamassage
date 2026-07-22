@@ -419,6 +419,37 @@ button{font-family:inherit;cursor:pointer}
 }
 .price-row:last-child{border-bottom:none}
 .price-row b{font-family:var(--font-display);font-size:1.2rem;color:var(--forest);font-weight:700;white-space:nowrap}
+/* Klickbare Preiszeilen & Pakete -> zur Buchung hinzufügen */
+.addable{cursor:pointer;position:relative;transition:background .2s,transform .2s,box-shadow .2s;border-radius:10px}
+.price-row.addable{padding-left:.55rem;padding-right:.55rem;margin:0 -.55rem}
+.price-row.addable:hover,.price-row.addable:focus-visible{background:rgba(194,161,94,.12);outline:none}
+.price-row.addable::after{content:"+ Termin";position:absolute;right:.55rem;top:50%;transform:translateY(-50%) scale(.9);
+  background:var(--forest);color:var(--gold-light,#E4D3AE);font-family:var(--font-body);font-size:.62rem;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;padding:.2rem .5rem;border-radius:999px;opacity:0;transition:opacity .2s;pointer-events:none}
+.price-row.addable:hover::after,.price-row.addable:focus-visible::after{opacity:1}
+.pkg.addable{cursor:pointer}
+.pkg.addable:hover,.pkg.addable:focus-visible{transform:translateY(-3px);box-shadow:0 14px 34px rgba(31,58,44,.16);outline:none}
+.pkg.addable::after{content:"+ Zur Buchung";position:absolute;top:.7rem;right:.7rem;
+  background:rgba(194,161,94,.95);color:#16281d;font-size:.6rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  padding:.2rem .5rem;border-radius:999px;opacity:0;transition:opacity .2s;pointer-events:none}
+.pkg.addable:hover::after,.pkg.addable:focus-visible::after{opacity:1}
+.addable.just-added{animation:addPulse .5s ease}
+@keyframes addPulse{0%{background:rgba(31,168,85,.28)}100%{background:transparent}}
+/* Service-Picker (Mehrfachauswahl mit Chips) */
+.service-picker{display:flex;flex-direction:column;gap:.6rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;min-height:1.2rem}
+.chips:empty::before{content:attr(data-empty);color:var(--ink-soft);font-size:.86rem;font-style:italic;opacity:.85}
+.chip{display:inline-flex;align-items:center;gap:.5rem;background:var(--forest);color:#fff;
+  border-radius:999px;padding:.42rem .5rem .42rem .9rem;font-size:.86rem;line-height:1;
+  box-shadow:0 4px 12px rgba(31,58,44,.18);animation:chipIn .25s ease}
+.chip .price{color:var(--gold-light,#E4D3AE);font-weight:600}
+.chip button{width:1.4rem;height:1.4rem;flex:none;border:none;cursor:pointer;border-radius:50%;
+  background:rgba(255,255,255,.16);color:#fff;font-size:1rem;line-height:1;display:grid;place-items:center;transition:background .15s}
+.chip button:hover{background:rgba(255,255,255,.32)}
+@keyframes chipIn{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+#bServiceAdd{max-width:100%}
+.booking-total{margin-top:.4rem;font-weight:600;color:var(--forest)}
+.booking-total b{font-family:var(--font-display);font-size:1.15rem}
 .aroma-note{
   margin-top:2.6rem;
   display:flex;align-items:center;justify-content:center;gap:.8rem;flex-wrap:wrap;
@@ -1198,8 +1229,8 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="5" r="2.4"/><path d="M8.5 21c.3-5 .8-8.5 3.5-11 2.7 2.5 3.2 6 3.5 11"/><path d="M12 10.5v8" stroke-dasharray="1 2.4"/></svg>
         </div>
         <h3>Rückenmassage</h3>
-        <div class="price-row"><span>30 Min.</span><b>40&nbsp;€</b></div>
-        <div class="price-row"><span>60 Min.</span><b>55&nbsp;€</b></div>
+        <div class="price-row addable" role="button" tabindex="0" data-service="Rückenmassage – 30 Min. (40 €)" data-price="40"><span>30 Min.</span><b>40&nbsp;€</b></div>
+        <div class="price-row addable" role="button" tabindex="0" data-service="Rückenmassage – 60 Min. (55 €)" data-price="55"><span>60 Min.</span><b>55&nbsp;€</b></div>
       </article>
 
       <!-- Klassische Ganzkörpermassage -->
@@ -1208,10 +1239,10 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16c4-1 7-1 9 0s5 1 9 0"/><circle cx="7" cy="9" r="1.8"/><path d="M9 11.5c2.5 1.5 6 2 10 1.5"/><path d="M14 7c1.2-1.5 3-2 5-1.5"/></svg>
         </div>
         <h3>Klassische Ganzkörpermassage</h3>
-        <div class="price-row"><span>60 Min.</span><b>70&nbsp;€</b></div>
-        <div class="price-row"><span>60 Min. + Hot-Stone</span><b>80&nbsp;€</b></div>
-        <div class="price-row"><span>90 Min.</span><b>85&nbsp;€</b></div>
-        <div class="price-row"><span>90 Min. + Hot-Stone</span><b>95&nbsp;€</b></div>
+        <div class="price-row addable" role="button" tabindex="0" data-service="Klassische Ganzkörpermassage – 60 Min. (70 €)" data-price="70"><span>60 Min.</span><b>70&nbsp;€</b></div>
+        <div class="price-row addable" role="button" tabindex="0" data-service="Klassische Ganzkörpermassage – 60 Min. + Hot-Stone (80 €)" data-price="80"><span>60 Min. + Hot-Stone</span><b>80&nbsp;€</b></div>
+        <div class="price-row addable" role="button" tabindex="0" data-service="Klassische Ganzkörpermassage – 90 Min. (85 €)" data-price="85"><span>90 Min.</span><b>85&nbsp;€</b></div>
+        <div class="price-row addable" role="button" tabindex="0" data-service="Klassische Ganzkörpermassage – 90 Min. + Hot-Stone (95 €)" data-price="95"><span>90 Min. + Hot-Stone</span><b>95&nbsp;€</b></div>
       </article>
 
       <!-- Indische Kopfmassage -->
@@ -1220,7 +1251,7 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21v-3.2A7 7 0 1 1 19 11l1.5 2.5H18V17a2 2 0 0 1-2 2h-1v2"/><path d="M11 9c1-1.2 3-1.2 4 0-1 1.2-3 1.2-4 0Z"/></svg>
         </div>
         <h3>Indische Kopfmassage</h3>
-        <div class="price-row"><span>45 Min.</span><b>55&nbsp;€</b></div>
+        <div class="price-row addable" role="button" tabindex="0" data-service="Indische Kopfmassage – 45 Min. (55 €)" data-price="55"><span>45 Min.</span><b>55&nbsp;€</b></div>
       </article>
 
       <!-- Fußreflexzonenmassage -->
@@ -1229,7 +1260,7 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3c2.5 0 3.5 2.5 3.5 5.5S10.5 15 8.8 15 5.5 12.5 5.5 9 6 3 8 3Z"/><circle cx="6.2" cy="17.7" r="1.3"/><path d="M16 6c2 0 2.8 2 2.8 4.4S17.6 15.6 16.3 15.6 13.6 13.6 13.6 10.8 14.4 6 16 6Z"/><circle cx="17.6" cy="18.4" r="1.1"/></svg>
         </div>
         <h3>Fußreflexzonenmassage</h3>
-        <div class="price-row"><span>30 Min.</span><b>35&nbsp;€</b></div>
+        <div class="price-row addable" role="button" tabindex="0" data-service="Fußreflexzonenmassage – 30 Min. (35 €)" data-price="35"><span>30 Min.</span><b>35&nbsp;€</b></div>
       </article>
 
       <!-- Beinmassage -->
@@ -1238,8 +1269,8 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2c0 5-1 8 1 11s2.5 5 1.5 8H8.5"/><path d="M8.5 21h6"/><path d="M14 6c2 1 3 3.5 2.5 6" stroke-dasharray="1 2.4"/></svg>
         </div>
         <h3>Beinmassage</h3>
-        <div class="price-row"><span>30 Min.</span><b>40&nbsp;€</b></div>
-        <div class="price-row"><span>60 Min.</span><b>55&nbsp;€</b></div>
+        <div class="price-row addable" role="button" tabindex="0" data-service="Beinmassage – 30 Min. (40 €)" data-price="40"><span>30 Min.</span><b>40&nbsp;€</b></div>
+        <div class="price-row addable" role="button" tabindex="0" data-service="Beinmassage – 60 Min. (55 €)" data-price="55"><span>60 Min.</span><b>55&nbsp;€</b></div>
       </article>
     </div>
 
@@ -1283,15 +1314,15 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
           <img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=900&q=70" alt="Holzwerkzeuge für die Maderotherapie auf einem Handtuch mit Blüten" loading="lazy">
         </figure>
         <div class="madero-packages">
-          <div class="pkg">
+          <div class="pkg addable" role="button" tabindex="0" data-service="Maderotherapie – Einzelbehandlung 50 Min. (80 €)" data-price="80">
             <div class="pkg-name"><b>Einzelbehandlung</b><span>50 Minuten · Ganzkörper</span></div>
             <div class="pkg-price"><b>80&nbsp;€</b></div>
           </div>
-          <div class="pkg best">
+          <div class="pkg best addable" role="button" tabindex="0" data-service="Maderotherapie – 5er-Paket (375 €)" data-price="375">
             <div class="pkg-name"><b>5er-Paket</b><span>5 Behandlungen à 50 Min.</span></div>
             <div class="pkg-price"><b>375&nbsp;€</b><span>75&nbsp;€ / Behandlung</span></div>
           </div>
-          <div class="pkg">
+          <div class="pkg addable" role="button" tabindex="0" data-service="Maderotherapie – 10er-Paket (700 €)" data-price="700">
             <div class="pkg-name"><b>10er-Paket</b><span>10 Behandlungen à 50 Min.</span></div>
             <div class="pkg-price"><b>700&nbsp;€</b><span>70&nbsp;€ / Behandlung</span></div>
           </div>
@@ -1385,31 +1416,34 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
       <div class="booking-body">
         <div class="form-grid">
           <div class="field full">
-            <label for="bService">Behandlung *</label>
-            <select id="bService" required>
-              <option value="" selected disabled>Bitte wählen …</option>
-              <optgroup label="Massagen">
-                <option>Rückenmassage – 30 Min. (40 €)</option>
-                <option>Rückenmassage – 60 Min. (55 €)</option>
-                <option>Klassische Ganzkörpermassage – 60 Min. (70 €)</option>
-                <option>Klassische Ganzkörpermassage – 60 Min. + Hot-Stone (80 €)</option>
-                <option>Klassische Ganzkörpermassage – 90 Min. (85 €)</option>
-                <option>Klassische Ganzkörpermassage – 90 Min. + Hot-Stone (95 €)</option>
-                <option>Indische Kopfmassage – 45 Min. (55 €)</option>
-                <option>Fußreflexzonenmassage – 30 Min. (35 €)</option>
-                <option>Beinmassage – 30 Min. (40 €)</option>
-                <option>Beinmassage – 60 Min. (55 €)</option>
-              </optgroup>
-              <optgroup label="Maderotherapie (NEU)">
-                <option>Maderotherapie – Einzelbehandlung 50 Min. (80 €)</option>
-                <option>Maderotherapie – 5er-Paket (375 €)</option>
-                <option>Maderotherapie – 10er-Paket (700 €)</option>
-              </optgroup>
-              <optgroup label="Extras">
-                <option>Beratung / andere Anfrage</option>
-              </optgroup>
-            </select>
-            <span class="err">Bitte wählen Sie eine Behandlung.</span>
+            <label>Behandlung(en) * <small>– eine oder mehrere wählen</small></label>
+            <div class="service-picker">
+              <div class="chips" id="bServiceChips" data-empty="Noch keine Behandlung gewählt – oben in der Preisliste antippen oder hier hinzufügen."></div>
+              <select id="bServiceAdd" aria-label="Behandlung hinzufügen">
+                <option value="" selected disabled>+ Behandlung hinzufügen …</option>
+                <optgroup label="Massagen">
+                  <option data-price="40">Rückenmassage – 30 Min. (40 €)</option>
+                  <option data-price="55">Rückenmassage – 60 Min. (55 €)</option>
+                  <option data-price="70">Klassische Ganzkörpermassage – 60 Min. (70 €)</option>
+                  <option data-price="80">Klassische Ganzkörpermassage – 60 Min. + Hot-Stone (80 €)</option>
+                  <option data-price="85">Klassische Ganzkörpermassage – 90 Min. (85 €)</option>
+                  <option data-price="95">Klassische Ganzkörpermassage – 90 Min. + Hot-Stone (95 €)</option>
+                  <option data-price="55">Indische Kopfmassage – 45 Min. (55 €)</option>
+                  <option data-price="35">Fußreflexzonenmassage – 30 Min. (35 €)</option>
+                  <option data-price="40">Beinmassage – 30 Min. (40 €)</option>
+                  <option data-price="55">Beinmassage – 60 Min. (55 €)</option>
+                </optgroup>
+                <optgroup label="Maderotherapie (NEU)">
+                  <option data-price="80">Maderotherapie – Einzelbehandlung 50 Min. (80 €)</option>
+                  <option data-price="375">Maderotherapie – 5er-Paket (375 €)</option>
+                  <option data-price="700">Maderotherapie – 10er-Paket (700 €)</option>
+                </optgroup>
+                <optgroup label="Extras">
+                  <option data-price="0">Beratung / andere Anfrage</option>
+                </optgroup>
+              </select>
+            </div>
+            <span class="err">Bitte wählen Sie mindestens eine Behandlung.</span>
           </div>
 
           <div class="field">
@@ -1925,7 +1959,9 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
 
   /* ---------- Terminbuchung (WhatsApp / Anruf) ---------- */
   var form = document.getElementById("bookingForm");
-  var fService = document.getElementById("bService");
+  var chipsBox = document.getElementById("bServiceChips");
+  var serviceAdd = document.getElementById("bServiceAdd");
+  var serviceField = chipsBox.closest(".field");
   var fDate = document.getElementById("bDate");
   var fTime = document.getElementById("bTime");
   var fName = document.getElementById("bName");
@@ -1934,12 +1970,72 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
   var summary = document.getElementById("bookingSummary");
   var submitMode = "whatsapp";
 
-  /* Vergangene Daten verhindern */
   var today = new Date();
-  var iso = today.getFullYear() + "-" +
-            String(today.getMonth()+1).padStart(2,"0") + "-" +
-            String(today.getDate()).padStart(2,"0");
+  var iso = today.getFullYear() + "-" + String(today.getMonth()+1).padStart(2,"0") + "-" + String(today.getDate()).padStart(2,"0");
   fDate.min = iso;
+
+  /* ---------- Mehrfachauswahl der Behandlungen ---------- */
+  var selected = []; /* { name, price } */
+
+  function getTotal(){
+    var t = selected.reduce(function(s,x){ return s + (x.price||0); }, 0);
+    if(fAroma && fAroma.value === "Ja") t += 5;
+    return t;
+  }
+  function renderChips(){
+    chipsBox.innerHTML = "";
+    selected.forEach(function(item){
+      var chip = document.createElement("span");
+      chip.className = "chip";
+      var label = document.createElement("span");
+      label.textContent = item.name;
+      chip.appendChild(label);
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.setAttribute("aria-label", "\u201E" + item.name + "\u201C entfernen");
+      btn.innerHTML = "&times;";
+      btn.addEventListener("click", function(){ removeService(item.name); });
+      chip.appendChild(btn);
+      chipsBox.appendChild(chip);
+    });
+    if(serviceField) serviceField.classList.remove("invalid");
+    updateSummary();
+  }
+  function addService(name, price){
+    if(!name) return;
+    if(selected.some(function(x){ return x.name === name; })) return;
+    selected.push({ name: name, price: parseInt(price,10) || 0 });
+    renderChips();
+  }
+  function removeService(name){
+    selected = selected.filter(function(x){ return x.name !== name; });
+    renderChips();
+  }
+
+  serviceAdd.addEventListener("change", function(){
+    var opt = serviceAdd.options[serviceAdd.selectedIndex];
+    if(opt && opt.value !== ""){
+      addService(opt.textContent.trim(), opt.getAttribute("data-price"));
+      serviceAdd.selectedIndex = 0;
+    }
+  });
+
+  function flash(el){
+    el.classList.remove("just-added"); void el.offsetWidth; el.classList.add("just-added");
+    setTimeout(function(){ el.classList.remove("just-added"); }, 600);
+  }
+  function handleAddable(el){
+    addService(el.getAttribute("data-service"), el.getAttribute("data-price"));
+    flash(el);
+    var target = document.getElementById("buchung");
+    if(target) target.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block: "start" });
+  }
+  document.querySelectorAll(".addable").forEach(function(el){
+    el.addEventListener("click", function(){ handleAddable(el); });
+    el.addEventListener("keydown", function(e){
+      if(e.key === "Enter" || e.key === " "){ e.preventDefault(); handleAddable(el); }
+    });
+  });
 
   function formatDate(value){
     if(!value) return "";
@@ -1950,50 +2046,48 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
   }
 
   function updateSummary(){
-    if(!fService.value && !fDate.value && !fTime.value){
-      summary.innerHTML = "Ihre Auswahl erscheint hier – wählen Sie Behandlung, Datum und Uhrzeit.";
+    if(selected.length === 0 && !fDate.value && !fTime.value){
+      summary.innerHTML = "Ihre Auswahl erscheint hier \u2013 Behandlung(en) antippen, dann Datum und Uhrzeit w\u00E4hlen.";
       return;
     }
     var html = "";
-    if(fService.value) html += "<b>" + fService.value + "</b>";
-    if(fAroma.value === "Ja") html += " · mit Aromaöl (+ 5 €)";
+    if(selected.length){
+      html += "<b>Ihre Auswahl (" + selected.length + "):</b><br>";
+      html += selected.map(function(x){ return "\u2022 " + x.name; }).join("<br>");
+      if(fAroma.value === "Ja") html += "<br>\u2022 Aroma\u00F6l (+ 5 \u20AC)";
+      html += "<div class=\"booking-total\">Gesamt ca. <b>" + getTotal() + " \u20AC</b></div>";
+    }
     if(fDate.value || fTime.value){
-      html += "<br>Wunschtermin: <b>" +
-        (fDate.value ? formatDate(fDate.value) : "–") +
-        (fTime.value ? " um " + fTime.value + " Uhr" : "") + "</b>";
+      html += "Wunschtermin: <b>" + (fDate.value ? formatDate(fDate.value) : "\u2013") + (fTime.value ? " um " + fTime.value + " Uhr" : "") + "</b>";
     }
     summary.innerHTML = html || "Ihre Auswahl erscheint hier.";
   }
-  [fService,fDate,fTime,fAroma].forEach(function(el){
-    el.addEventListener("change", updateSummary);
-  });
+  [fDate,fTime,fAroma].forEach(function(el){ el.addEventListener("change", updateSummary); });
 
-  function markInvalid(el, invalid){
-    el.closest(".field").classList.toggle("invalid", invalid);
-  }
+  function markInvalid(el, invalid){ el.closest(".field").classList.toggle("invalid", invalid); }
 
   function validate(){
     var ok = true;
+    if(selected.length === 0){ serviceField.classList.add("invalid"); ok = false; }
+    else serviceField.classList.remove("invalid");
     var checks = [
-      [fService, !fService.value],
       [fDate, !fDate.value || fDate.value < iso],
       [fTime, !fTime.value],
       [fName, !fName.value.trim()]
     ];
-    checks.forEach(function(c){
-      markInvalid(c[0], c[1]);
-      if(c[1]) ok = false;
-    });
+    checks.forEach(function(c){ markInvalid(c[0], c[1]); if(c[1]) ok = false; });
     if(!ok){
-      var firstInvalid = form.querySelector(".field.invalid input, .field.invalid select");
-      if(firstInvalid) firstInvalid.focus();
+      var fi = form.querySelector(".field.invalid");
+      if(fi){
+        var focusable = fi.querySelector("input, select");
+        if(focusable) focusable.focus();
+        fi.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block:"center" });
+      }
     }
     return ok;
   }
 
-  [fService,fDate,fTime,fName].forEach(function(el){
-    el.addEventListener("input", function(){ markInvalid(el, false); });
-  });
+  [fDate,fTime,fName].forEach(function(el){ el.addEventListener("input", function(){ markInvalid(el, false); }); });
 
   form.addEventListener("click", function(e){
     var btn = e.target.closest("button[data-mode]");
@@ -2003,21 +2097,21 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
   form.addEventListener("submit", function(e){
     e.preventDefault();
     if(!validate()) return;
+    if(submitMode === "call"){ window.location.href = PHONE_LINK; return; }
 
-    if(submitMode === "call"){
-      window.location.href = PHONE_LINK;
-      return;
+    var lines = [ "Hallo Mirjana, ich m\u00F6chte gerne einen Termin vereinbaren:", "" ];
+    if(selected.length === 1){
+      lines.push("\u2022 Behandlung: " + selected[0].name);
+    } else {
+      lines.push("\u2022 Behandlungen:");
+      selected.forEach(function(x){ lines.push("   \u2013 " + x.name); });
     }
-
-    var lines = [
-      "Hallo Mirjana, ich möchte gerne einen Termin vereinbaren:",
-      "",
-      "• Behandlung: " + fService.value + (fAroma.value === "Ja" ? " + Aromaöl (+ 5 €)" : ""),
-      "• Wunschtermin: " + formatDate(fDate.value) + " um " + fTime.value + " Uhr",
-      "• Name: " + fName.value.trim()
-    ];
+    if(fAroma.value === "Ja") lines.push("\u2022 Aroma\u00F6l: Ja (+ 5 \u20AC)");
+    lines.push("\u2022 Gesamt ca.: " + getTotal() + " \u20AC");
+    lines.push("\u2022 Wunschtermin: " + formatDate(fDate.value) + " um " + fTime.value + " Uhr");
+    lines.push("\u2022 Name: " + fName.value.trim());
     var note = fMsg.value.trim();
-    if(note) lines.push("• Nachricht: " + note);
+    if(note) lines.push("\u2022 Nachricht: " + note);
     lines.push("", "Vielen Dank!");
 
     var url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(lines.join("\n"));
