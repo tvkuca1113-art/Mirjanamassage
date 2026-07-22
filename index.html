@@ -278,6 +278,15 @@ button{font-family:inherit;cursor:pointer}
 }
 .about-text p{margin-bottom:1.1rem;color:var(--ink-soft)}
 .about-text p strong{color:var(--forest);font-weight:600}
+.about-badges{display:flex;flex-wrap:wrap;gap:.7rem;margin:.2rem 0 1.6rem}
+.qual{
+  display:inline-flex;align-items:center;gap:.55rem;
+  background:#fff;border:1px solid rgba(194,161,94,.5);
+  color:var(--forest);border-radius:999px;
+  padding:.5rem 1.1rem;font-size:.82rem;font-weight:500;letter-spacing:.01em;
+  box-shadow:var(--shadow-soft);
+}
+.qual svg{width:18px;height:18px;color:var(--gold-2);flex:none}
 .about-sign{font-family:var(--font-script);font-size:2.2rem;color:var(--gold-2);margin-top:1.2rem}
 @media (max-width:860px){
   .about-grid{grid-template-columns:1fr;gap:3rem}
@@ -844,6 +853,33 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
 }
 .voucher-side svg{width:64px;height:64px;color:var(--gold-soft)}
 .voucher-side span{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-soft);font-weight:600;line-height:1.9}
+/* 3 Schritte zum Gutschein */
+.voucher-steps{
+  max-width:780px;margin:1.8rem auto 0;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;
+}
+.vstep{
+  background:#fff;border:1px solid rgba(194,161,94,.3);
+  border-radius:var(--radius-sm);padding:1.4rem 1.2rem;
+  text-align:center;box-shadow:var(--shadow-soft);
+}
+.vstep-icon{
+  width:46px;height:46px;margin:0 auto .8rem;border-radius:50%;
+  background:var(--forest);color:var(--gold-soft);
+  display:grid;place-items:center;
+}
+.vstep-icon svg{width:22px;height:22px}
+.vstep b{
+  display:block;font-family:var(--font-display);font-size:1.1rem;
+  color:var(--forest);font-weight:600;margin-bottom:.35rem;
+}
+.vstep p{font-size:.82rem;color:var(--ink-soft);line-height:1.6}
+@media (max-width:640px){
+  .voucher-steps{grid-template-columns:1fr;gap:.8rem}
+  .vstep{display:grid;grid-template-columns:46px 1fr;gap:0 1rem;text-align:left;align-items:center;padding:1.1rem 1.2rem}
+  .vstep-icon{margin:0;grid-row:span 2}
+  .vstep b{margin-bottom:.15rem}
+}
 @media (max-width:640px){
   .voucher-card{grid-template-columns:1fr}
   .voucher-card::before,.voucher-card::after{display:none}
@@ -1036,10 +1072,16 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
     </figure>
     <div class="about-text reveal d1">
       <span class="eyebrow">Über mich</span>
-      <h2 class="section-title">Herzlich willkommen –<br>ich bin Mirjana</h2>
-      <p>Mein Name ist <strong>Mirjana Zrnic</strong>, und Massage ist für mich weit mehr als ein Beruf – sie ist meine Leidenschaft. Als <strong>ausgebildete und zertifizierte Masseurin</strong> nehme ich mir Zeit für Sie: für Ihre Verspannungen, Ihre Wünsche und Ihr Wohlbefinden.</p>
-      <p>In meinem Studio in <strong>Hasenbergl-Feldmoching</strong> erwartet Sie eine ruhige, liebevoll gestaltete Atmosphäre, in der Sie den Alltag hinter sich lassen können. Jede Behandlung stimme ich <strong>individuell auf Sie ab</strong> – mit natürlichen Ölen und geprüften, hochwertigen Produkten.</p>
-      <p>Ihr Wohlbefinden ist meine Priorität – für Körper, Geist und Seele. Ich freue mich darauf, Sie verwöhnen zu dürfen.</p>
+      <h2 class="section-title">Hallo, ich bin Mirjana</h2>
+
+      <div class="about-badges">
+        <span class="qual"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v4c0 1.3 2.7 3 6 3s6-1.7 6-3v-4"/></svg>Examinierte Pflegefachkraft</span>
+        <span class="qual"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20c8 1 14-4 16-16-9 1-14 5-16 16Z"/><path d="M4 20c3-7 7-11 12-13"/></svg>Ausgebildete Wellnessmasseurin</span>
+      </div>
+
+      <p>Mein Name ist <strong>Mirjana Zrnic</strong>. Als <strong>examinierte Pflegefachkraft</strong> und <strong>ausgebildete Wellnessmasseurin</strong> liegt mir Ihr Wohlbefinden ganz besonders am Herzen – Massage ist für mich weit mehr als ein Beruf, sie ist meine Leidenschaft.</p>
+      <p>In meinem Studio in <strong>Hasenbergl-Feldmoching</strong> schenke ich Ihnen eine kleine Auszeit vom Alltag: eine ruhige, persönliche Atmosphäre, in der Sie ganz zur Ruhe kommen dürfen. Jede Behandlung stimme ich <strong>individuell auf Sie ab</strong> – mit natürlichen Ölen und geprüften, hochwertigen Produkten.</p>
+      <p>Durch meine Erfahrung in der Pflege weiß ich, wie wohltuend achtsame Berührung und echte Zeit für den Menschen sind. Genau das möchte ich Ihnen schenken – für <strong>Körper, Geist und Seele</strong>. Ich freue mich darauf, Sie verwöhnen zu dürfen.</p>
       <p class="about-sign" aria-hidden="true">Ihre Mirjana</p>
     </div>
   </div>
@@ -1372,6 +1414,25 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
       <div class="voucher-side" aria-hidden="true">
         <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M32 44c-6-4-10-10-10-17 0-5 4-11 10-15 6 4 10 10 10 15 0 7-4 13-10 17Z"/><path d="M32 44c-9 1-17-2-22-8 5-3 12-4 18-2M32 44c9 1 17-2 22-8-5-3-12-4-18-2"/><path d="M14 50c5 4 12 6 18 6s13-2 18-6"/></svg>
         <span>Geschenk<br>mit Herz</span>
+      </div>
+    </div>
+
+    <!-- So funktioniert der Gutschein-Kauf -->
+    <div class="voucher-steps reveal d2">
+      <div class="vstep">
+        <span class="vstep-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-2-1.2 7.4 7.4 0 0 1-1.4-1.7c-.1-.2 0-.4.1-.5l.4-.5a1.8 1.8 0 0 0 .3-.4.5.5 0 0 0 0-.4c0-.1-.6-1.4-.8-1.9s-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.8 11.8 0 0 0 4.5 4 15 15 0 0 0 1.5.6 3.6 3.6 0 0 0 1.7.1 2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3Z"/></svg></span>
+        <b>1. Anfragen</b>
+        <p>Wunschbehandlung oder Betrag einfach per WhatsApp oder Telefon mitteilen.</p>
+      </div>
+      <div class="vstep">
+        <span class="vstep-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19"/><path d="M6.5 15h4"/></svg></span>
+        <b>2. Bezahlen</b>
+        <p>Bequem per Überweisung oder bar im Studio – ganz wie es für Sie passt.</p>
+      </div>
+      <div class="vstep">
+        <span class="vstep-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8.5" width="18" height="12" rx="2"/><path d="M3 12.5h18"/><path d="M12 8.5v12"/><path d="M12 8.5c-1.5-2.5-4.5-3.5-6-2s.5 4 3.5 2M12 8.5c1.5-2.5 4.5-3.5 6-2s-.5 4-3.5 2"/></svg></span>
+        <b>3. Verschenken</b>
+        <p>Gutschein als hübsches PDF per WhatsApp bzw. E-Mail erhalten oder persönlich abholen.</p>
       </div>
     </div>
   </div>
