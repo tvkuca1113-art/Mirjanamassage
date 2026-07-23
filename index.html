@@ -695,6 +695,17 @@ a.contact-item:hover{transform:translateY(-4px);border-color:var(--gold)}
 .map-consent p{font-size:.82rem;color:rgba(247,242,233,.85);margin-bottom:1.1rem}
 .map-consent p strong{color:#fff;font-family:var(--font-display);font-size:1.15rem;font-weight:600;letter-spacing:.02em}
 .map-shell iframe{border:0;width:100%;min-height:340px;flex:1;position:relative;z-index:3}
+/* DSGVO Zwei-Klick-Lösung für Google Maps */
+.map-consent{
+  position:relative;z-index:3;flex:1;min-height:340px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:.9rem;text-align:center;padding:1.6rem 1.4rem;
+  background:linear-gradient(150deg,rgba(31,58,44,.94),rgba(18,32,22,.97));color:var(--cream,#F7F2E9);
+}
+.map-consent svg{width:44px;height:44px;color:var(--gold,#C2A15E);opacity:.9}
+.map-consent p{font-size:.9rem;line-height:1.6;max-width:34rem;opacity:.94}
+.map-consent .map-link{background:none;border:none;padding:0;cursor:pointer;
+  color:var(--gold-light,#E4D3AE);text-decoration:underline;font:inherit}
+.map-consent .btn{margin-top:.2rem}
 .map-actions{
   position:relative;z-index:3;
   display:flex;gap:.7rem;flex-wrap:wrap;
@@ -1748,11 +1759,20 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
                 stroke="#C2A15E" stroke-width="1" opacity=".45"/>
         </svg>
 
+        <!-- DSGVO: Zwei-Klick-Lösung – Karte lädt erst nach ausdrücklicher Einwilligung -->
+        <div class="map-consent" id="mapConsent">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          <p><strong>Karte von Google Maps</strong><br>
+          Mit dem Laden der Karte werden Daten (u.&nbsp;a. Ihre IP-Adresse) an Google übertragen.
+          Näheres in der <button type="button" class="map-link" data-open-dialog="datenschutz">Datenschutzerklärung</button>.</p>
+          <button type="button" class="btn btn-gold" id="mapLoad">Karte laden</button>
+        </div>
         <iframe
-          src="https://www.google.com/maps?q=Hasenbergl-Feldmoching,+M%C3%BCnchen&t=h&z=14&output=embed"
+          data-src="https://www.google.com/maps?q=Hasenbergl-Feldmoching,+M%C3%BCnchen&t=h&z=14&output=embed"
           title="Karte: Hasenbergl-Feldmoching, München"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
+          hidden
           allowfullscreen></iframe>
         <div class="map-actions">
           <a class="btn btn-gold" href="https://www.google.com/maps/search/?api=1&query=Hasenbergl-Feldmoching%2C+M%C3%BCnchen" target="_blank" rel="noopener" aria-label="Standort in Google Maps öffnen">
@@ -1849,8 +1869,10 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
     <p><span class="ph">[USt-IdNr. gemäß § 27a UStG, falls vorhanden – andernfalls diesen Abschnitt entfernen oder Hinweis auf Kleinunternehmerregelung § 19 UStG ergänzen]</span></p>
     <h3>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h3>
     <p><span class="ph">[Vollständiger Name]</span>, Anschrift wie oben.</p>
-    <h3>Streitschlichtung</h3>
-    <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit. Ich bin nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+    <h3>Berufsbezeichnung</h3>
+    <p><span class="ph">[z. B. „Ausgebildete Wellnessmasseurin" – zusätzlich examinierte Pflegefachkraft. Hinweis: Es werden ausschließlich Wellness- und Entspannungsmassagen angeboten; es erfolgt keine Heilbehandlung, keine Diagnose und keine Therapie im medizinischen Sinne.]</span></p>
+    <h3>Verbraucherstreitbeilegung</h3>
+    <p>Ich bin nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
   </div>
 </dialog>
 
@@ -1868,15 +1890,17 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
     <p>Verantwortlich für die Datenverarbeitung auf dieser Website im Sinne der Datenschutz-Grundverordnung (DSGVO):<br>
     <span class="ph">[Vollständiger Name]</span>, Massage und Wellness Mirjana, <span class="ph">[Straße &amp; Hausnummer]</span>, <span class="ph">[PLZ]</span> München, Telefon: 0155 / 10203946, E-Mail: <span class="ph">[E-Mail-Adresse]</span>.</p>
     <h3>2. Server-Logfiles</h3>
-    <p>Beim Aufruf dieser Website erhebt der Hosting-Anbieter <span class="ph">[Name des Hosters eintragen]</span> automatisch Informationen in sogenannten Server-Logfiles (z. B. IP-Adresse, Datum und Uhrzeit des Zugriffs, Browsertyp). Diese Daten dienen der technischen Bereitstellung und Sicherheit der Website (Art. 6 Abs. 1 lit. f DSGVO) und werden nicht mit anderen Datenquellen zusammengeführt.</p>
+    <p>Beim Aufruf dieser Website erhebt der Hosting-Anbieter <strong>Vercel Inc.</strong> (440 N Barranca Ave #4133, Covina, CA 91723, USA) automatisch Informationen in sogenannten Server-Logfiles (z. B. IP-Adresse, Datum und Uhrzeit des Zugriffs, Browsertyp). Diese Daten dienen der technischen Bereitstellung und Sicherheit der Website (Art. 6 Abs. 1 lit. f DSGVO) und werden nicht mit anderen Datenquellen zusammengeführt. Dabei können Daten in die USA übertragen werden. <span class="ph">[Mit dem Hosting-Anbieter ist ein Auftragsverarbeitungsvertrag (AVV) abzuschließen – bitte prüfen.]</span></p>
     <h3>3. Kontaktaufnahme (Telefon, E-Mail, WhatsApp)</h3>
     <p>Wenn Sie mich per Telefon, E-Mail oder WhatsApp kontaktieren, werden Ihre Angaben (z. B. Name, Rufnummer, Wunschtermin) ausschließlich zur Bearbeitung Ihrer Anfrage und Terminvereinbarung verarbeitet (Art. 6 Abs. 1 lit. b DSGVO). Auf dieser Website selbst werden durch das Terminformular <strong>keine Daten gespeichert oder übertragen</strong> – erst mit dem Öffnen von WhatsApp bzw. Ihrer Telefon-App verlassen Sie diese Website.</p>
     <p>Bei Nutzung von <strong>WhatsApp</strong> gelten zusätzlich die Datenschutzbestimmungen der WhatsApp Ireland Ltd. Dabei können Daten in Drittländer (u. a. USA) übertragen werden. Die Nutzung erfolgt freiwillig; alternativ erreichen Sie mich telefonisch.</p>
     <h3>4. Eingebundene Karte (Google Maps)</h3>
-    <p>Auf dieser Website ist eine Karte von Google Maps eingebunden, die beim Aufruf der Seite automatisch geladen wird. Dabei werden Daten (u. a. Ihre IP-Adresse) an Google Ireland Ltd. übertragen; eine Übermittlung in Drittländer (u. a. USA) ist möglich. Die Einbindung erfolgt zur ansprechenden Darstellung des Standorts (Art. 6 Abs. 1 lit. f DSGVO). Weitere Informationen finden Sie in der Datenschutzerklärung von Google. <span class="ph">[Hinweis: Nach verbreiteter Rechtsauffassung ist für das automatische Laden von Google Maps eine Einwilligung (Consent-Banner) erforderlich – bitte rechtlich prüfen lassen.]</span></p>
-    <h3>5. Ihre Rechte</h3>
+    <p>Auf dieser Website ist eine Karte von Google Maps eingebunden. Diese wird <strong>nicht automatisch geladen</strong>: Es erscheint zunächst nur ein Hinweisfeld. Erst wenn Sie ausdrücklich auf „Karte laden“ klicken, wird die Karte nachgeladen und dabei werden Daten (u. a. Ihre IP-Adresse) an Google Ireland Ltd. übertragen; eine Übermittlung in Drittländer (u. a. USA) ist möglich. Rechtsgrundlage ist Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO i. V. m. § 25 Abs. 1 TDDDG), die Sie jederzeit für die Zukunft widerrufen können, indem Sie die Seite neu laden. Weitere Informationen finden Sie in der Datenschutzerklärung von Google.</p>
+    <h3>5. Schriftarten (Google Fonts)</h3>
+    <p><span class="ph">[Hinweis für die Inhaberin: Die Schriftarten werden derzeit von Google-Servern geladen; dabei wird die IP-Adresse an Google übertragen. Empfehlung: Schriften lokal einbinden (Self-Hosting) – dann kann dieser Abschnitt entfallen. Solange extern geladen wird, ist eine Einwilligung erforderlich.]</span></p>
+    <h3>6. Ihre Rechte</h3>
     <p>Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) sowie Widerspruch gegen die Verarbeitung (Art. 21 DSGVO). Zudem besteht ein Beschwerderecht bei einer Datenschutz-Aufsichtsbehörde, in Bayern: Bayerisches Landesamt für Datenschutzaufsicht (BayLDA), Ansbach.</p>
-    <h3>6. Stand</h3>
+    <h3>7. Stand</h3>
     <p><span class="ph">[Monat / Jahr eintragen]</span></p>
   </div>
 </dialog>
@@ -2117,6 +2141,20 @@ dialog.legal::backdrop{background:rgba(22,41,31,.6);backdrop-filter:blur(4px)}
     var url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(lines.join("\n"));
     window.open(url, "_blank", "noopener");
   });
+
+  /* ---------- Google Maps: Zwei-Klick-Lösung (DSGVO) ---------- */
+  var mapConsent = document.getElementById("mapConsent");
+  var mapLoad = document.getElementById("mapLoad");
+  if(mapConsent && mapLoad){
+    mapLoad.addEventListener("click", function(){
+      var frame = mapConsent.parentNode.querySelector("iframe[data-src]");
+      if(frame){
+        frame.src = frame.getAttribute("data-src");
+        frame.hidden = false;
+      }
+      mapConsent.remove();
+    });
+  }
 
   /* ---------- Rechtliche Modals ---------- */
   document.querySelectorAll("[data-open-dialog]").forEach(function(btn){
