@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://TVOJA-DOMENA-ILI-GITHUB-URL/sitemap.xml
+# Interne Seite – nicht für Suchmaschinen bestimmt
+Disallow: /angaben.html
+
+Sitemap: https://mirjanamassage.vercel.app/sitemap.xml
